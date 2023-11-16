@@ -62,11 +62,9 @@ class Generator(nn.Module):
         batch_size = questions.shape[0]
         seq_len = questions.shape[1]
         if actor_rnn_state is None:
-            # 无历史信息
             actor_rnn_state = Variable(torch.Tensor(batch_size, self.emb_dim).uniform_(0, 1))
             actor_rnn_state = actor_rnn_state.to(self.device)
         else:
-            # 从历史信息中获取用户特征信息
             actor_rnn_state = self.user_emb(actor_rnn_state)
         return_logits = []
         return_value = []

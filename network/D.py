@@ -25,7 +25,6 @@ class Disc(nn.Module):
         print("Disc Init Done!")
 
     def init_model(self):
-        # 初始化参数
         for name, param in self.named_parameters():
             if 'weight' in name:
                 nn.init.xavier_normal_(param)

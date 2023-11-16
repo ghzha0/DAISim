@@ -54,7 +54,6 @@ def PPO_STEP(G, action, advantages, returns, origin_len, fixed_log_prob, optim_g
     surr2 = torch.clamp(ratio, 1.0 - args.clip_epsilon, 1.0 + args.clip_epsilon) * advantages
     p_loss = torch.sum(sequence_mask(-torch.minimum(surr1, surr2), origin_len)) / sum(origin_len)
 
-    # 计算熵值，控制动作分布，避免全0全1出现
     entropy = 0
     for i in range(args.generate_size):
         entropy += torch.distributions.Bernoulli(logits[i, :origin_len[i]]).entropy().mean()

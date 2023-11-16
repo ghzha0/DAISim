@@ -46,9 +46,7 @@ class MAILModel:
             answer = late[2].to(self.device)
             tag = late[3].to(self.device)
             origin_len = late[4]
-            # 获取用户特征
             user_feature = self.extract(early, mode='easy')
-            # 生成数据
             _, _, pred = g.forward(None, question, tag, actor_rnn_state=user_feature, answers=None)
             target.extend(get_str_for_eval(questions=question.cpu().tolist(), answers=answer.cpu().tolist()))
             pred_1.extend(
@@ -236,10 +234,6 @@ class MAILModel:
                 self.save_model(model=self.D, model_name=f'{ep}_train_d', experiment_name=args.log_name)
 
     def to_onehot(self, tags):
-        """
-        tags to {0, 1} encode
-        知识点 to onehot向量
-        """
         if tags == '':
             return [0] * self.args.kc_num
         tags = tags.split(';')
